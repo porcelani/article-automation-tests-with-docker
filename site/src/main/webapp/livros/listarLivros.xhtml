@@ -1,0 +1,83 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    <h:head>
+        <title>Gerenciador de Livros</title>
+        <style type="text/css">
+    		#pag{
+    			background-image:url('../img/bib.png');
+    			position:center;
+    		}
+		</style>
+    </h:head>
+    <h:body id="pag">
+    	<ui:include src="../menu.xhtml" />
+    	<br/>
+        <p:fieldset legend="Sistema de Biblioteca">
+          	<h2>Livros do Sistema</h2>
+          	<p:commandButton value="Novo Livro" actionListener="#{livroController.prepararAdicionarLivro}" update="formCadastro" onclick="PF('cDialog').show()"/>
+          	<br/><br/>
+           	<h:form id="listaDeLivros">
+                <p:dataTable id="dataTableLista" var="livro" value="#{livroController.listarLivros}">
+                    <p:column style="text-align: center;" headerText="Título">
+                        <h:outputText value="#{livro.titulo}" />
+                    </p:column>
+
+                    <p:column style="text-align: center;" headerText="Autor">
+                        <h:outputText value="#{livro.autor}" />
+                    </p:column>
+
+                    <p:column style="text-align: center;" headerText="ISBN">
+                        <h:outputText value="#{livro.isbn}" />
+                    </p:column>
+                    
+                    <p:column style="text-align: center;" headerText="Categoria">
+                        <h:outputText value="#{livro.categoria.descricao}" />
+                    </p:column>
+                    
+                    <p:column style="text-align: center;" headerText="Editora">
+                        <h:outputText value="#{livro.editora.nome}" />
+                    </p:column>
+
+                    <p:column style="text-align: center;" >
+                        <f:facet name="header">
+                            <h:outputText value="Excluir"/>
+                        </f:facet>
+                        <p:commandButton actionListener="#{livroController.excluirLivro}" update=":listaDeLivros:dataTableLista" value="Excluir"/>
+                    </p:column>
+                </p:dataTable>
+            </h:form>      
+        </p:fieldset>
+        <p:dialog header="Controle de Livros" widgetVar="cDialog" resizable="false" modal="true" hideEffect="fade" showEffect="fade" width="500">
+           <h:form id="formCadastro">
+				<h:outputText value="Informe os dados do Livro:" />
+				<br/><br/>
+				Título: <p:inputText id="titulo" value="#{livroController.livroNovo.titulo}" /><br/><br/>
+				Autor: <p:inputText id="autor" value="#{livroController.livroNovo.autor}" /><br/><br/>
+				ISBN: <p:inputText id="isbn" value="#{livroController.livroNovo.isbn}" /><br/><br/>
+				Categoria:
+				<h:selectOneMenu id="categoria" value="#{livroController.categoriaId}" >
+					<f:selectItem itemLabel="Selecione a Categoria" />
+					<f:selectItems value="#{livroController.listaCategorias}"
+						var="item" itemLabel="#{item.descricao}" itemValue="#{item.idCategoria}" />
+				</h:selectOneMenu>
+				<br/><br/>
+				Editora:
+				<h:selectOneMenu id="editora" value="#{livroController.editoraId}" >
+					<f:selectItem itemLabel="Selecione a Editora" />
+					<f:selectItems value="#{livroController.listaEditoras}"
+						var="item" itemLabel="#{item.nome}" itemValue="#{item.idEditora}" />
+				</h:selectOneMenu>
+				<br/><br/>
+				<p:commandButton value="Inserir Novo Livro" actionListener="#{livroController.adicionarLivro}"
+								 onclick="return confirm('Confirma as informações?')" />
+				<p:commandButton value="Voltar" action="index" onclick="PF('eDialog').hide();"
+								 immediate="true" />
+            </h:form>
+        </p:dialog>
+    </h:body>
+</html>

@@ -1,0 +1,78 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    <h:head>
+        <title>Gerenciador de Emprestimo</title>
+        <style type="text/css">
+    		#pag{
+    			background-image:url('../img/bib.png');
+    			position:center;
+    		}
+		</style>
+    </h:head>
+    <h:body id="pag">
+    	<ui:include src="../menu.xhtml" />
+    	<br/>
+        <p:fieldset legend="Sistema de Biblioteca">
+          	<h2>Emprestimos do Sistemas</h2>
+           	<h:form id="listaDeUsuarios">
+                <p:dataTable id="dataTableLista" var="usuario" value="#{consultaEmprestimoController.listarUsuarios}">
+                    <p:column style="text-align: center;" headerText="Nome do Usuario">
+                        <h:outputText value="#{usuario.nome}" />
+                    </p:column>
+                    
+                    <p:column style="text-align: center;" >
+                        <f:facet name="header">
+                            <h:outputText value="Consultar Emprestimos"/>
+                        </f:facet>
+                        <p:commandButton value="Consultar"
+                        	actionListener="#{consultaEmprestimoController.prepararEmprestimos}"
+                        	update=":formCadastro"/>
+                    </p:column>
+                </p:dataTable>
+            </h:form>
+            <h:form id="formCadastro">
+		        <h:form id="formUsuarios" rendered="#{consultaEmprestimoController.usuarioId != -1}">
+		        	<br/>
+					<h3>Emprestimos do Usuario: <h:outputText value="#{consultaEmprestimoController.nomeUsuario}"/></h3>
+					<br/>
+					<p:dataTable id="dataTableEmprestimos" var="emprestimo" value="#{consultaEmprestimoController.listarEmprestimosUsuario}">
+			             <p:column style="text-align: center;" headerText="Data do Empréstimo">
+			                 <h:outputText value="#{emprestimo.dtEmprestimo}" />
+			             </p:column>
+			             
+			             <p:column style="text-align: center;" headerText="Data de Devolução">
+			                 <h:outputText value="#{emprestimo.dtDevolucao}" />
+			             </p:column>
+			             
+			             <p:column style="text-align: center;" headerText="Título">
+			                 <h:outputText value="#{emprestimo.emprestimoID.livro.titulo}" />
+			             </p:column>
+			             
+			             <p:column style="text-align: center;" headerText="Autor">
+			                 <h:outputText value="#{emprestimo.emprestimoID.livro.autor}" />
+			             </p:column>
+			             
+			             <p:column style="text-align: center;" headerText="Editora">
+			                 <h:outputText value="#{emprestimo.emprestimoID.livro.editora.nome}" />
+			             </p:column>
+			
+			             <p:column style="text-align: center;" >
+			                 <f:facet name="header">
+			                     <h:outputText value="Realizar Devolução"/>
+			                 </f:facet>
+			                 <p:commandButton actionListener="#{consultaEmprestimoController.devolverLivro}"
+			                 				 update=":formCadastro:formUsuarios:dataTableEmprestimos"
+			                 				 disabled="#{emprestimo.dtDevolucao != null}"
+			                 				 value="Devolver"/>
+			             </p:column>
+			        </p:dataTable>
+		         </h:form>
+        	 </h:form>      
+        </p:fieldset>
+    </h:body>
+</html>

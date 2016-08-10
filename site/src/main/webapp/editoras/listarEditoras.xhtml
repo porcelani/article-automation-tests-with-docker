@@ -1,0 +1,51 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    <h:head>
+        <title>Gerenciador de Livros</title>
+        <style type="text/css">
+    		#pag{
+    			background-image:url('../img/bib.png');
+    			position:center;
+    		}
+		</style>
+    </h:head>
+    <h:body id="pag">
+    	<ui:include src="../menu.xhtml" />
+    	<br/>
+        <p:fieldset legend="Sistema de Biblioteca">
+          	<h2>Controle de Editoras</h2>
+          	<p:commandButton value="Nova Editora" actionListener="#{editoraController.prepararAdicionarEditora}" update="formCadastro" onclick="PF('edDialog').show()"/>
+          	<br/><br/>
+           	<h:form id="listaDeEditoras">
+                <p:dataTable id="dataTableLista" var="editora" value="#{editoraController.listarEditoras}">
+                    <p:column style="text-align: center;" headerText="Nome">
+                        <h:outputText value="#{editora.nome}" />
+                    </p:column>
+                    <p:column style="text-align: center;" >
+                        <f:facet name="header">
+                            <h:outputText value="Excluir"/>
+                        </f:facet>
+                        <p:commandButton actionListener="#{editoraController.excluirEditora}" update=":listaDeEditoras:dataTableLista" value="Excluir"/>
+                    </p:column>
+                </p:dataTable>
+            </h:form>      
+        </p:fieldset>
+        <p:dialog header="Controle de Editoras" widgetVar="edDialog" resizable="false" modal="true" hideEffect="fade" showEffect="fade" width="500">
+           <h:form id="formCadastro">
+				<h:outputText value="Informe a Nova Editora:" />
+				<br/><br/>
+				Nome: <p:inputText id="nome" value="#{editoraController.novaEditora.nome}" /><br/><br/>
+				<br/><br/>
+				<p:commandButton value="Inserir Nova Editora" actionListener="#{editoraController.adicionarEditora}"
+								 onclick="return confirm('Confirma a informação?')" />
+				<p:commandButton value="Voltar" action="index" onclick="PF('edDialog').hide();"
+								 immediate="true" />
+            </h:form>
+        </p:dialog>
+    </h:body>
+</html>

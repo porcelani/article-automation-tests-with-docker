@@ -1,0 +1,58 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    <h:head>
+        <title>Gerenciador de Livros</title>
+        <style type="text/css">
+    		#pag{
+    			background-image:url('../img/bib.png');
+    			position:center;
+    		}
+		</style>
+    </h:head>
+    <h:body id="pag">
+    	<ui:include src="../menu.xhtml" />
+    	<br/>
+        <p:fieldset legend="Sistema de Biblioteca">
+          	<h2>Estoque de Livros do Sistema</h2>
+           	<h:form id="listaDeEstoque">
+                <p:dataTable id="dataTableLista" var="relLivroEstoque" value="#{estoqueController.livroEstoque}">
+                    <p:column style="text-align: center;" headerText="Quantidade de Livros">
+                        <h:outputText value="#{relLivroEstoque.quantidade}" />
+                    </p:column>
+                    <p:column style="text-align: center;" headerText="Título">
+                        <h:outputText value="#{relLivroEstoque.livro.titulo}" />
+                    </p:column>
+                    <p:column style="text-align: center;" headerText="Autor">
+                       	<h:outputText value="#{relLivroEstoque.livro.autor}" />
+                    </p:column>
+                    <p:column style="text-align: center;" headerText="ISBN">
+                    	<h:outputText value="#{relLivroEstoque.livro.isbn}" />
+	                </p:column>
+                    <p:column style="text-align: center;" headerText="Categoria">
+                        <h:outputText value="#{relLivroEstoque.livro.categoria.descricao}" />
+                    </p:column>
+                    <p:column style="text-align: center;" headerText="Editora">
+                       	<h:outputText value="#{relLivroEstoque.livro.editora.nome}" />
+                    </p:column>
+                    <p:column style="text-align: center;">
+                        <f:facet name="header" style="text-align: center;">
+                           	<h:outputText value="Excluir Estoque"/>
+                        </f:facet>
+                       	<p:commandButton actionListener="#{estoqueController.excluirEstoque}" update=":listaDeEstoque:dataTableLista" value="Excluir Estoque"/>
+                    </p:column>
+                    <p:column style="text-align: center;">
+                        <f:facet name="header" style="text-align: center;">
+                           	<h:outputText value="Adicionar Estoque"/>
+                        </f:facet>
+                       	<p:commandButton actionListener="#{estoqueController.adicionarEstoque}" update=":listaDeEstoque:dataTableLista" value="Adicionar Estoque"/>
+                    </p:column>
+                </p:dataTable>
+            </h:form>      
+        </p:fieldset>
+    </h:body>
+</html>

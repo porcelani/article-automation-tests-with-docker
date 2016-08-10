@@ -1,0 +1,87 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    <h:head>
+        <title>Gerenciador de Emprestimo</title>
+        <style type="text/css">
+    		#pag{
+    			background-image:url('../img/bib.png');
+    			position:center;
+    		}
+		</style>
+    </h:head>
+    <h:body id="pag">
+    	<ui:include src="../menu.xhtml" />
+    	<br/>
+        <p:fieldset legend="Sistema de Biblioteca">
+          	<h2>Emprestimos do Sistemas</h2>
+          	<p:commandButton value="Realizar Novo Emprestimo" actionListener="#{emprestimoController.prepararNovoEmprestimo}" update="formCadastro" onclick="PF('empDialog').show()"/>
+          	<br/><br/>
+           	<h:form id="listaDeEmprestimos">
+                <p:dataTable id="dataTableLista" var="emprestimo" value="#{emprestimoController.listarEmprestimos}">
+                    <p:column style="text-align: center;" headerText="Data do Empréstimo">
+                        <h:outputText value="#{emprestimo.dtEmprestimo}" />
+                    </p:column>
+                    
+                    <p:column style="text-align: center;" headerText="Data de Devolução">
+                        <h:outputText value="#{emprestimo.dtDevolucao}" />
+                    </p:column>
+
+                    <p:column style="text-align: center;" headerText="Nome do Usuário">
+                        <h:outputText value="#{emprestimo.emprestimoID.usuario.nome}" />
+                    </p:column>
+                    
+                    <p:column style="text-align: center;" headerText="Título">
+                        <h:outputText value="#{emprestimo.emprestimoID.livro.titulo}" />
+                    </p:column>
+                    
+                    <p:column style="text-align: center;" headerText="Autor">
+                        <h:outputText value="#{emprestimo.emprestimoID.livro.autor}" />
+                    </p:column>
+                    
+                    <p:column style="text-align: center;" headerText="Editora">
+                        <h:outputText value="#{emprestimo.emprestimoID.livro.editora.nome}" />
+                    </p:column>
+
+                    <p:column style="text-align: center;" >
+                        <f:facet name="header">
+                            <h:outputText value="Realizar Devolução"/>
+                        </f:facet>
+                        <p:commandButton actionListener="#{emprestimoController.devolverLivro}"
+                        				 update=":listaDeEmprestimos:dataTableLista"
+                        				 disabled="#{emprestimo.dtDevolucao != null}"
+                        				 value="Devolver"/>
+                    </p:column>
+                </p:dataTable>
+            </h:form>      
+        </p:fieldset>
+        <p:dialog header="Controle de Emprestimos" widgetVar="empDialog" resizable="false" modal="true" hideEffect="fade" showEffect="fade" width="800">
+           <h:form id="formCadastro">
+				<h:outputText value="Informe os dados do Emprestimo:" />
+				<br/><br/>
+				Usuario:
+				<h:selectOneMenu id="usuario" value="#{emprestimoController.usuarioId}" >
+					<f:selectItem itemLabel="Selecione o Usuário" />
+					<f:selectItems value="#{emprestimoController.listarUsuarios}"
+						var="item" itemLabel="#{item.nome}" itemValue="#{item.idUsuario}" />
+				</h:selectOneMenu>
+				<br/><br/>
+				Livro:
+				<h:selectOneMenu id="livro" value="#{emprestimoController.isbnLivro}" >
+					<f:selectItem itemLabel="Selecione o Livro" />
+					<f:selectItems value="#{emprestimoController.listarLivros}"
+						var="item" itemLabel="#{item.titulo}" itemValue="#{item.isbn}" />
+				</h:selectOneMenu>
+				<br/><br/>
+				<p:commandButton value="Cadastrar Emprestimo" actionListener="#{emprestimoController.cadastrarEmprestimo}"
+								 onclick="return confirm('Confirma as informações?')" />
+				<p:commandButton value="Voltar" action="index" onclick="PF('empDialog').hide();"
+								 immediate="true" />
+            </h:form>
+        </p:dialog>
+    </h:body>
+</html>
