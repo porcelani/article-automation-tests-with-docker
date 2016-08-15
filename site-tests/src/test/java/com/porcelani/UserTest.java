@@ -5,20 +5,15 @@ import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
-import org.openqa.selenium.Platform;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.remote.DesiredCapabilities;
-import org.openqa.selenium.remote.RemoteWebDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-
-import java.net.URL;
-import java.util.concurrent.TimeUnit;
 
 import static org.junit.Assert.*;
 
 public class UserTest {
-    private static final String DOCKER_MACHINE_IP = "http://192.168.99.100";
+    private static final String DOCKER_MACHINE_IP = "http://localhost:8080";
     private WebDriver driver;
     private boolean acceptNextAlert = true;
     private StringBuffer verificationErrors = new StringBuffer();
@@ -26,12 +21,7 @@ public class UserTest {
 
     @Before
     public void setUp() throws Exception {
-        DesiredCapabilities dr = DesiredCapabilities.firefox();
-        dr.setPlatform(Platform.LINUX);
-        driver = new RemoteWebDriver(new URL(DOCKER_MACHINE_IP + ":4444/wd/hub"), dr);
-        driver.manage().window().maximize();
-        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-
+        driver = new FirefoxDriver();
         wait = new WebDriverWait(driver, 10);
     }
 

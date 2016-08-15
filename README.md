@@ -3,4 +3,4 @@
 It's a article, requirement to concluded the my specialization in Web Development, have the propose to compare
 the preparation environments in Web Development using Docker with a how we do always installing everything.
 
-Technology Stack: PostgreSQL, WildFly, Java, Maven
+Technology Stack: PostgreSQL, WildFly, Java, Maven, Ubuntu 16.04 LTS
