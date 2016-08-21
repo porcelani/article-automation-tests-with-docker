@@ -17,7 +17,8 @@ http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd">
 			<property name="hibernate.format_sql" value="false" />
 			<property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect" />
 			<property name="hibernate.connection.driver_class" value="org.postgresql.Driver" />
-			<property name="hibernate.connection.url" value="jdbc:postgresql://192.168.99.100:5432/postgres"/>
+			<!--172.17.0.1 is the ip used  by containers docker-->
+			<property name="hibernate.connection.url" value="jdbc:postgresql://172.17.0.1:5432/postgres"/>
 			<property name="hibernate.connection.username" value="postgres" />
 			<property name="hibernate.connection.password" value="postgres" />
 		</properties>

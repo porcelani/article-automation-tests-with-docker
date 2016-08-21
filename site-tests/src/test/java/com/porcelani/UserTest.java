@@ -13,7 +13,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import static org.junit.Assert.*;
 
 public class UserTest {
-    private static final String DOCKER_MACHINE_IP = "http://localhost:8080";
+    private static final String DOCKER_MACHINE_IP = "http://127.0.0.1:8080";
     private WebDriver driver;
     private boolean acceptNextAlert = true;
     private StringBuffer verificationErrors = new StringBuffer();
